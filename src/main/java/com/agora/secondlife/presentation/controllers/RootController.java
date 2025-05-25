@@ -8,6 +8,6 @@ public class RootController {
 
     @GetMapping("/")
     public String home() {
-        return "Secondlife app online!";
+    	return "redirect:/app/";
     }
 }
