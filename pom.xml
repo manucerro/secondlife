@@ -7,16 +7,16 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.3</version>
+		<version>3.4.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	
-	<groupId>com.sinensia</groupId>
-	<artifactId>polloschicharron</artifactId>
+	<groupId>com.agora</groupId>
+	<artifactId>secondlife</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>polloschicharrones</name>
+	<name>secondlife</name>
 	
-	<description>Proyecto de gestión de restaurante - demo</description>
+	<description>TFG de Manuel Cerro, tienda de productos electrónicos de segunda mano</description>
 	
 	<url/>
 	<licenses>

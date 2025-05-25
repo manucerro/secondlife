@@ -7,8 +7,8 @@
     <!-- Business to Integration --> 
     
     <mapping>
-    	<class-a>com.sinensia.polloschicharron.business.model.Cliente</class-a>
-    	<class-b>com.sinensia.polloschicharron.integration.model.ClientePL</class-b>
+    	<class-a>com.agora.secondlife.business.model.Cliente</class-a>
+    	<class-b>com.agora.secondlife.integration.model.ClientePL</class-b>
     </mapping>
     
 </mappings>
