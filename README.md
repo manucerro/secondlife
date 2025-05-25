@@ -1,6 +1,6 @@
-# Pollos Chicharron
+# SecondLife
 
-## _Proyecto de referencia de Spring Boot_
+## _Proyecto TFG para usar en Pipeline_
 
 Swagger: http://localhost:8080/swagger-ui.html
 
