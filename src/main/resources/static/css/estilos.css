@@ -1,3 +1,51 @@
-.cool{
-	background-color: orange;
+/* Estilos generales */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container-fluid {
+    padding: 20px;
+}
+
+h3 {
+    color: #343a40;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+/* Estilos para tablas */
+.table {
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.table thead th {
+    background-color: #343a40;
+    color: white;
+    font-weight: 500;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Alineaciones */
+.text-right {
+    text-align: right;
+}
+
+/* Margenes y paddings */
+.mt-15 {
+    margin-top: 15px;
+}
+
+/* Estilos específicos para estadísticas */
+.stats-header {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
