@@ -1,32 +1,17 @@
-# --- Fase de construcción (compila el JAR con Maven) ---
-
-FROM maven:4.0.0-openjdk-17 AS build
-
-WORKDIR /app
-
+# Fase de construcción
+FROM maven:3.8.6-openjdk-17 AS build
+WORKDIR /workspace
+# Copia SOLO los archivos necesarios para evitar problemas de caché
 COPY pom.xml .
-
-COPY src ./src
-
-# Ejecuta Maven para empaquetar el proyecto (omite tests para mayor velocidad)
-
+COPY src src
+# Empaqueta la aplicación
 RUN mvn clean package -DskipTests
-
-# --- Fase de ejecución (solo el JAR en una imagen ligera) ---
-
+# Fase de ejecución
 FROM openjdk:17-jdk-slim
-
 WORKDIR /app
-
 # Copia el JAR desde la fase de construcción
-
-COPY --from=build /app/target/secondlife-0.0.1-SNAPSHOT.jar app.jar
-
-# Expone el puerto que usa Spring Boot (normalmente 8080)
-
+COPY --from=build /workspace/target/*.jar app.jar
+# Puerto expuesto (debe coincidir con server.port de Spring)
 EXPOSE 8080
-
-# Comando para ejecutar la aplicación
-
-CMD ["java", "-jar", "app.jar"]
- 
+# Comando de inicio
+ENTRYPOINT ["java", "-jar", "app.jar"]
