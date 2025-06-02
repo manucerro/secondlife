@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SecondLife - Listado de Empleados</title>
+    <th:block th:replace="common-in-head :: head"></th:block>
+</head>
+<body>
+	<th:block th:replace="nav :: nav(active='empleados')"></th:block>
+
+    <div class="container-fluid">
+
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Listado de Empleados</h3>
+                    <span class="badge bg-primary fs-6">
+                        Total empleados: <span th:text="${empleados.size()}">0</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-10 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <table class="table table-hover table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Nombre Completo</th>
+                                    <th>Teléfono</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="empleado : ${empleados}">
+                                    <td th:text="${empleado.nombreCompleto}">Nombre</td>
+                                    <td th:text="${empleado.telefono}">Teléfono</td>
+                                    <td>
+                                        <a th:href="'mailto:' + ${empleado.email}"
+                                           class="text-decoration-none"
+                                           th:text="${empleado.email}">email@example.com</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

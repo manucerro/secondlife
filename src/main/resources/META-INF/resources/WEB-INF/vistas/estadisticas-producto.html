@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SecondLife - Estadísticas</title>
+    <th:block th:replace="~{common-in-head :: head}"></th:block>
+</head>
+<body>
+	<th:block th:replace="~{nav :: nav(active='estadisticas')}"></th:block>
+
+    <div class="container-fluid">
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Estadísticas de Productos</h3>
+                    <span class="badge bg-primary fs-6">Total productos: <span th:text="${numeroProductos}">0</span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-10 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <table class="table table-hover table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID Familia</th>
+                                    <th>Familia</th>
+                                    <th class="text-end">Número de productos</th>
+                                    <th class="text-end">Precio medio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="entry : ${mapa1}">
+                                    <td th:text="${entry.key.id}">ID</td>
+                                    <td th:text="${entry.key.nombre}">Nombre</td>
+                                    <td class="text-end" th:text="${entry.value}">0</td>
+                                    <td class="text-end">
+                                        <th:block th:if="${mapa2[entry.key] != null}">
+                                            <span class="fw-bold" th:text="${#numbers.formatDecimal(mapa2[entry.key], 1, 2)} + ' €'">0.00 €</span>
+                                        </th:block>
+                                        <th:block th:unless="${mapa2[entry.key] != null}">
+                                            <span class="text-muted">---</span>
+                                        </th:block>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" th:fragment="nav(active)">
+      <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" th:href="@{/app/home}">
+          <img src="/img/logo2.jpg" alt="SecondLife Logo" height="40" class="me-2 rounded-circle" />
+          <span class="fw-bold">SecondLife</span>
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                th:classappend="${active} == 'home' ? 'active' : ''"
+                th:href="@{/app/home}"
+              >
+                <i class="bi bi-house-door me-1"></i>Inicio
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                th:classappend="${active} == 'empleados' ? 'active' : ''"
+                th:href="@{/app/lista-empleados}"
+              >
+                <i class="bi bi-people me-1"></i>Empleados
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                th:classappend="${active} == 'productos' ? 'active' : ''"
+                th:href="@{/app/lista-productos}"
+              >
+                <i class="bi bi-box-seam me-1"></i>Productos
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                th:classappend="${active} == 'estadisticas' ? 'active' : ''"
+                th:href="@{/app/estadisticas-producto}"
+              >
+                <i class="bi bi-graph-up me-1"></i>Estadísticas
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                th:classappend="${active} == 'pedidos' ? 'active' : ''"
+                th:href="@{/app/lista-pedidos}"
+              >
+                <i class="bi bi-clipboard-check me-1"></i>Pedidos
+              </a>
+            </li>
+          </ul>
+
+          <div class="d-flex">
+            <span class="navbar-text me-3">
+              <i class="bi bi-recycle text-success"></i> Reutilizando con sentido
+            </span>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </body>
+</html>

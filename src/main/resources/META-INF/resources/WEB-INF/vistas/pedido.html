@@ -1,11 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>SecondLife - Detalle de Pedido</title>
-    <jsp:include page="common-in-head.jsp"/>
+    <th:block th:replace="common-in-head :: head"/>
     <style>
         .pedido-header {
             background-color: #f8f9fa;
@@ -34,15 +31,15 @@
 </head>
 <body>
     <div class="container-fluid">
-        <jsp:include page="nav.jsp"/>
-        
+        <th:block th:replace="nav :: navigation"/>
+
         <div class="row mt-4">
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="mb-0">Detalle de Pedido</h2>
-                    <span class="badge bg-primary fs-6">Nº ${pedido.id}</span>
+                    <span class="badge bg-primary fs-6" th:text="'Nº ' + ${pedido.id}">Nº 123</span>
                 </div>
-                
+
                 <!-- Información principal -->
                 <div class="card detail-card mb-4">
                     <div class="card-header">
@@ -53,50 +50,39 @@
                             <div class="col-md-6">
                                 <dl class="row">
                                     <dt class="col-sm-4">Fecha</dt>
-                                    <dd class="col-sm-8">
-                                        <fmt:formatDate pattern="dd/MM/yyyy" value="${pedido.fechaHora}" />
-                                    </dd>
-                                    
+                                    <dd class="col-sm-8" th:text="${#dates.format(pedido.fechaHora, 'dd/MM/yyyy')}">01/01/2023</dd>
+
                                     <dt class="col-sm-4">Hora</dt>
-                                    <dd class="col-sm-8">
-                                        <fmt:formatDate pattern="HH:mm" value="${pedido.fechaHora}" />
-                                    </dd>
-                                    
+                                    <dd class="col-sm-8" th:text="${#dates.format(pedido.fechaHora, 'HH:mm')}">12:30</dd>
+
                                     <dt class="col-sm-4">Estado</dt>
                                     <dd class="col-sm-8">
-                                        <span class="badge ${pedido.estado == 'PENDIENTE' ? 'bg-warning text-dark' : 
-                                                      pedido.estado == 'COMPLETADO' ? 'bg-success' : 
-                                                      pedido.estado == 'CANCELADO' ? 'bg-danger' : 
-                                                      pedido.estado == 'ENVIADO' ? 'bg-info text-dark' : 'bg-secondary'} status-badge">
-                                            ${pedido.estado}
-                                        </span>
+                                        <span th:classappend="
+                                            ${pedido.estado} == 'PENDIENTE' ? 'bg-warning text-dark' :
+                                            ${pedido.estado} == 'COMPLETADO' ? 'bg-success' :
+                                            ${pedido.estado} == 'CANCELADO' ? 'bg-danger' :
+                                            ${pedido.estado} == 'ENVIADO' ? 'bg-info text-dark' : 'bg-secondary'"
+                                            class="badge status-badge"
+                                            th:text="${pedido.estado}">PENDIENTE</span>
                                     </dd>
                                 </dl>
                             </div>
                             <div class="col-md-6">
                                 <dl class="row">
                                     <dt class="col-sm-4">Empleado</dt>
-                                    <dd class="col-sm-8">
-                                        ${pedido.empleado.nombre} ${pedido.empleado.apellido1}
-                                    </dd>
-                                    
-                                    <c:if test="${not empty pedido.cliente}">
-                                        <dt class="col-sm-4">Cliente</dt>
-                                        <dd class="col-sm-8">
-                                            ${pedido.cliente.nombre} ${pedido.cliente.apellido1}
-                                        </dd>
-                                    </c:if>
-                                    
+                                    <dd class="col-sm-8" th:text="${pedido.empleado.nombre} + ' ' + ${pedido.empleado.apellido1}">Juan Pérez</dd>
+
+                                    <dt class="col-sm-4" th:if="${pedido.cliente != null}">Cliente</dt>
+                                    <dd class="col-sm-8" th:if="${pedido.cliente != null}" th:text="${pedido.cliente.nombre} + ' ' + ${pedido.cliente.apellido1}">Cliente Ejemplo</dd>
+
                                     <dt class="col-sm-4">Establecimiento</dt>
-                                    <dd class="col-sm-8">
-                                        ${pedido.establecimiento.nombre}
-                                    </dd>
+                                    <dd class="col-sm-8" th:text="${pedido.establecimiento.nombre}">Sucursal Central</dd>
                                 </dl>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Detalle del pedido -->
                 <div class="card detail-card mb-4">
                     <div class="card-header">
@@ -114,25 +100,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:set var="totalPedido" value="0"/>
-                                    <c:forEach var="linea" items="${pedido.lineas}">
-                                        <c:set var="subtotal" value="${linea.cantidad * linea.precio}"/>
-                                        <c:set var="totalPedido" value="${totalPedido + subtotal}"/>
-                                        <tr>
-                                            <td>${linea.producto.nombre}</td>
-                                            <td class="text-end">
-                                                <fmt:formatNumber value="${linea.precio}" type="currency" currencySymbol="€"/>
-                                            </td>
-                                            <td class="text-end">${linea.cantidad}</td>
-                                            <td class="text-end">
-                                                <fmt:formatNumber value="${subtotal}" type="currency" currencySymbol="€"/>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
+                                    <tr th:each="linea : ${pedido.lineas}">
+                                        <td th:text="${linea.producto.nombre}">Producto 1</td>
+                                        <td class="text-end" th:text="${#numbers.formatCurrency(linea.precio, 'EUR')}">€10,00</td>
+                                        <td class="text-end" th:text="${linea.cantidad}">2</td>
+                                        <td class="text-end" th:text="${#numbers.formatCurrency(linea.precio * linea.cantidad, 'EUR')}">€20,00</td>
+                                    </tr>
                                     <tr class="total-row">
                                         <td colspan="3" class="text-end"><strong>TOTAL:</strong></td>
-                                        <td class="text-end text-primary">
-                                            <fmt:formatNumber value="${totalPedido}" type="currency" currencySymbol="€"/>
+                                        <td class="text-end text-primary"
+                                            th:text="${#numbers.formatCurrency(
+                                                        pedido.lineas.stream()
+                                                            .mapToDouble(l -> l.precio * l.cantidad)
+                                                            .sum(), 'EUR')}">
+                                            €0,00
                                         </td>
                                     </tr>
                                 </tbody>
@@ -140,29 +121,27 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Observaciones -->
-                <c:if test="${not empty pedido.observaciones}">
-                    <div class="card detail-card mb-4">
-                        <div class="card-header">
-                            <h3 class="h5 mb-0"><i class="bi bi-chat-left-text me-2"></i>Observaciones</h3>
-                        </div>
-                        <div class="card-body">
-                            <p class="mb-0">${pedido.observaciones}</p>
-                        </div>
+                <div class="card detail-card mb-4" th:if="${pedido.observaciones != null and #strings.isNotEmpty(pedido.observaciones)}">
+                    <div class="card-header">
+                        <h3 class="h5 mb-0"><i class="bi bi-chat-left-text me-2"></i>Observaciones</h3>
                     </div>
-                </c:if>
-                
+                    <div class="card-body">
+                        <p class="mb-0" th:text="${pedido.observaciones}">Observaciones del pedido</p>
+                    </div>
+                </div>
+
                 <!-- Botones de acción -->
                 <div class="d-flex justify-content-between mt-4">
                     <a href="./lista-pedidos" class="btn btn-outline-secondary">
                         <i class="bi bi-arrow-left me-1"></i> Volver a Pedidos
                     </a>
                     <div>
-                        <a href="./pedido_1?id=${pedido.id}" class="btn btn-outline-primary me-2">
+                        <a th:href="@{'./pedido_1'(id=${pedido.id})}" class="btn btn-outline-primary me-2">
                             <i class="bi bi-eye me-1"></i> Vista Detallada
                         </a>
-                        <a href="./pedido_2?id=${pedido.id}" class="btn btn-primary">
+                        <a th:href="@{'./pedido_2'(id=${pedido.id})}" class="btn btn-primary">
                             <i class="bi bi-printer me-1"></i> Imprimir Factura
                         </a>
                     </div>
@@ -170,7 +149,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </body>

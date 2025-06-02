@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SecondLife - Listado de Pedidos</title>
+    <th:block th:replace="common-in-head :: head"></th:block>
+    <style>
+        .status-pendiente { background-color: #fff3cd; }
+        .status-completado { background-color: #d4edda; }
+        .status-cancelado { background-color: #f8d7da; }
+        .status-enviado { background-color: #cce5ff; }
+    </style>
+</head>
+<body>
+	<th:block th:replace="nav :: nav(active='pedidos')"></th:block>
+	<div class="container-fluid">
+
+    	<div class="row mt-3">
+        	<div class="col-md-12">
+            	<div class="d-flex justify-content-between align-items-center">
+                	<h3 class="mb-0">Listado de Pedidos</h3>
+                	<span class="badge bg-primary fs-6">
+                    	Total pedidos: <span th:text="${pedidos.size()}">0</span>
+                	</span>
+            	</div>
+        	</div>
+    	</div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Estado</th>
+                            <th>Establecimiento</th>
+                            <th>Empleado</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="pedido : ${pedidos}"
+                            th:classappend="pedido.estado == 'PENDIENTE' ? 'status-pendiente' :
+                                            (pedido.estado == 'COMPLETADO' ? 'status-completado' :
+                                            (pedido.estado == 'CANCELADO' ? 'status-cancelado' :
+                                            (pedido.estado == 'ENVIADO' ? 'status-enviado' : '')))">
+                            <td th:text="'#' + ${pedido.id}">#1</td>
+                            <td th:text="${#dates.format(pedido.fechaHora, 'dd/MM/yyyy')}">01/01/2024</td>
+                            <td th:text="${#dates.format(pedido.fechaHora, 'HH:mm')}">12:00</td>
+                            <td>
+                                <span class="badge"
+                                      th:classappend="pedido.estado == 'PENDIENTE' ? 'bg-warning text-dark' :
+                                                      (pedido.estado == 'COMPLETADO' ? 'bg-success' :
+                                                      (pedido.estado == 'CANCELADO' ? 'bg-danger' :
+                                                      (pedido.estado == 'ENVIADO' ? 'bg-info text-dark' : 'bg-secondary')))"
+                                      th:text="${pedido.estado}">PENDIENTE</span>
+                            </td>
+                            <td th:text="${pedido.establecimiento}">Sucursal Centro</td>
+                            <td th:text="${pedido.empleado}">Juan Pérez</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

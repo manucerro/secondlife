@@ -1,9 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>SecondLife - Electrodomésticos con nueva vida</title>
-        <jsp:include page="common-in-head.jsp"/>
+        <th:block th:replace="common-in-head :: head"></th:block>
         <style>
             .hero-section {
                 background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/img/electrodomesticos-bg.jpg');
@@ -33,10 +32,9 @@
         </style>
     </head>
     <body>
+		<th:block th:replace="nav :: nav(active='home')"></th:block>
         <div class="container-fluid px-0">
-			<jsp:include page="nav.jsp">
-			    <jsp:param name="active" value="productos"/>
-			</jsp:include>
+  
             
             <!-- Hero Section -->
             <div class="hero-section text-center">

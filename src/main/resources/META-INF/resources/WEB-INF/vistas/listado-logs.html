@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>SecondLife - Registro de Logs</title>
+        <th:block th:replace="common-in-head :: head"></th:block>
+        <style>
+            .status-2xx { background-color: #d4edda; }  /* Verde para respuestas exitosas */
+            .status-4xx { background-color: #fff3cd; }  /* Amarillo para client errors */
+            .status-5xx { background-color: #f8d7da; }  /* Rojo para server errors */
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <th:block th:replace="nav :: nav(active='productos')"></th:block>
+            
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">Registro de Solicitudes</h3>
+                        <span class="badge bg-secondary fs-6">
+                            Total registros: <span th:text="${logs.size()}">0</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover table-bordered">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Ruta</th>
+                                        <th>Método</th>
+                                        <th>IP</th>
+                                        <th>Tiempo (ms)</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="log : ${logs}"
+                                        th:classappend="${log.statusCode} >= 200 && ${log.statusCode} < 300 ? 'status-2xx' :
+                                                        (${log.statusCode} >= 400 && ${log.statusCode} < 500) ? 'status-4xx' :
+                                                        (${log.statusCode} >= 500) ? 'status-5xx' : ''">
+                                        <td th:text="${log.id}">1</td>
+                                        <td th:text="${#dates.format(log.timeStamp, 'dd/MM/yyyy')}">01/01/2024</td>
+                                        <td class="text-end" th:text="${#dates.format(log.timeStamp, 'HH:mm:ss')}">12:00:00</td>
+                                        <td class="text-truncate" style="max-width: 200px;" th:title="${log.path}" th:text="${log.path}">/ruta</td>
+                                        <td>
+                                            <span class="badge"
+                                                  th:classappend="${log.method} == 'GET' ? 'bg-primary' :
+                                                                 (${log.method} == 'POST') ? 'bg-success' :
+                                                                 (${log.method} == 'PUT') ? 'bg-warning text-dark' :
+                                                                 (${log.method} == 'DELETE') ? 'bg-danger' : 'bg-secondary'"
+                                                  th:text="${log.method}">GET</span>
+                                        </td>
+                                        <td th:text="${log.ip}">127.0.0.1</td>
+                                        <td class="text-end" th:text="${log.elapsedTime}">150</td>
+                                        <td class="text-center">
+                                            <span class="badge"
+                                                  th:classappend="${log.statusCode} >= 200 && ${log.statusCode} < 300 ? 'bg-success' :
+                                                                 (${log.statusCode} >= 400 && ${log.statusCode} < 500) ? 'bg-warning text-dark' :
+                                                                 (${log.statusCode} >= 500) ? 'bg-danger' : 'bg-secondary'"
+                                                  th:text="${log.statusCode}">200</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
