@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="es">
+<head>
+    <title>SecondLife</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <h3 style="margin-top: 15px;">Request Logs</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Request Date</th>
+                    <th>Request Time</th>
+                    <th>Path</th>
+                    <th>Method</th>
+                    <th>Remote IP</th>
+                    <th>Elapsed Time</th>
+                    <th>Status Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="log : ${logs}">
+                    <td th:text="${log.id}">1</td>
+                    <td th:text="${#dates.format(log.timeStamp, 'dd/MM/yyyy')}">01/01/2025</td>
+                    <td th:text="${#dates.format(log.timeStamp, 'HH:mm')}" style="text-align: right;">12:00</td>
+                    <td th:text="${log.path}">/path</td>
+                    <td th:text="${log.method}">GET</td>
+                    <td th:text="${log.ip}">127.0.0.1</td>
+                    <td th:text="${log.elapsedTime}">123</td>
+                    <td th:text="${log.statusCode}">200</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
