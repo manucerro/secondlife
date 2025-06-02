@@ -67,6 +67,7 @@ public class SecurityConfig {
                     .requestMatchers("/app/**").permitAll()	  						 // Permite el acceso a la aplicación JSP
                     .requestMatchers("/admin/auditoria/**").permitAll() 			 // Permite el acceso a la página de Logs
                     .requestMatchers("/h2-console/**").permitAll()					 // Permite el acceso a la consola H2
+                    .requestMatchers("/").permitAll()
                     .anyRequest().authenticated()									 // El resto requiere estar autenticado   
             );
         
